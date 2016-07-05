@@ -1,0 +1,16 @@
+#!/bin/bash
+tti="";
+
+for ((;;)); do
+tmp=$(curl -s http://www.freshnewsasia.com/index.php/en/ | sed -n "/<tr class=\"cat-list-row0/,/<\/tr>/p" | head -8);
+mod=$(echo $tmp|cut -d ">" -f7|sed -e "s/<\/td//");
+
+if [ "$tti" != "$mod" ]
+then
+body=$(echo $tmp|cut -d ">" -f4|sed -e "s/<\/a//");
+notify-send "FRESH NEWS:$mod" "$body"
+tti=$mod;
+fi
+
+sleep 5;
+done
